@@ -18,10 +18,10 @@ playerImg = pygame.image.load("img.png")
 playerImg = pygame.transform.scale(playerImg, (64, 64))
 playerX = 370
 playerY = 480
-
+playerX_change = 0
 
 # blit means draw
-def player():
+def player(x, y):
     screen.blit(playerImg, (playerX, playerY))
 
 
@@ -35,5 +35,18 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    player()
+    # if key stroke is pressed check whether its right or left
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_RIGHT:
+            playerX_change = 0.1
+        if event.key == pygame.K_LEFT:
+            playerX_change = -0.1
+
+    if event.type == pygame.KEYUP:
+        if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
+            playerX_change = 0
+    # 5 = 5 + -0.1 -> 5 = 5 - 0.1
+
+    playerX += playerX_change
+    player(playerX, playerY)
     pygame.display.update()
